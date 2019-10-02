@@ -9,18 +9,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.springinitializr.example.ui.model.response.UserRest;
+
 @RestController
 @RequestMapping("users") // http://localhost:8080/users
 public class UserController {
 
 	@GetMapping
-	public String getUsers(@RequestParam(value="page", defaultValue = "1")int page, @RequestParam(value="limit", defaultValue = "25")int limit) {
-		return "get user was called with page="+page +"and limit=" +limit;
+	public String getUsers(@RequestParam(value="page", defaultValue = "1")int page, 
+			@RequestParam(value="limit", defaultValue = "25")int limit,
+			@RequestParam(value="sort", defaultValue = "desc", required = false)String sort) {
+		
+		return "get user was called with page="+page +" and limit=" +limit + " sort = "+sort;
 	}
 	
 	@GetMapping(path="/{userId}")
-	public String getUser(@PathVariable String userId) {
-		return "get user was called " + userId;
+	public UserRest getUser() {
+		UserRest returnValue = new UserRest();
+		returnValue.setEmail("test@mail.com");
+		returnValue.setFirstName("lantechie");
+		returnValue.setLastName("automation");
+		return returnValue;
 	}
 	
 	@PostMapping
